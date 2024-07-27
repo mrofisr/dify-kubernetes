@@ -8,5 +8,5 @@ spec:
   type: ClusterIP
   ports:
     - name: nginx
-      port: 8080
+      port: 8008
       targetPort: 80
