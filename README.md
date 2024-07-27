@@ -1,5 +1,18 @@
 # How to Deployment Dify on Kubernetes
 ## Table of Contents
+- [Deployment Flow](#deployment-flow)
+- [Requirement](#requirement)
+- [Step Installation](#step-installation)
+  - [Clone Repository](#clone-repository)
+  - [Install Redis](#install-redis)
+  - [Install PostgreSQL](#install-postgresql)
+  - [Install Weaviate](#install-weaviate)
+  - [Install Dify API](#install-dify-api)
+  - [Install Dify Web](#install-dify-web)
+  - [Install Dify Sandbox](#install-dify-sandbox)
+  - [Install Dify Worker](#install-dify-worker)
+  - [Install SSRF Proxy](#install-ssrf-proxy)
+  - [Setup CI/CD Pipeline Jenkins](#setup-cicd-pipeline-jenkins)
 ## Deployment Flow
 ## Requirement
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
@@ -11,11 +24,7 @@
 ## Step Installation
 ### Clone Repository
 ```bash
-git clone https://github.com/mrofisr/dify
-```
-### Install Ingress NGINX
-```bash
-kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/v3.6.1/deploy/crds.yaml
+git clone https://github.com/mrofisr/dify-kubernetes.git
 ```
 ### Install Redis
 ```
