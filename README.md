@@ -14,7 +14,7 @@
   - [Install SSRF Proxy](#install-ssrf-proxy)
   - [Setup CI/CD Pipeline Jenkins](#setup-cicd-pipeline-jenkins)
 ## Deployment Flow
-![Deployment Flow](images/flow.gif)
+![Deployment Flow](https://raw.githubusercontent.com/mrofisr/dify-kubernetes/main/image/flow.gif)
 ## Requirement
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
 - [Helm](https://helm.sh/docs/intro/install/)
