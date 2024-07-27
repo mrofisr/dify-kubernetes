@@ -1,29 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dify-api
+  name: dify-worker
   namespace: dify
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dify-api
+      app: dify-worker
   template:
     metadata:
       labels:
-        app: dify-api
+        app: dify-worker
     spec:
       restartPolicy: Always
       containers:
-        - name: dify-api
-          image: langgenius/dify-api:0.6.15
+        - name: dify-worker
+          image: ghcr.io/mrofisr/dify-api:{VERSION}
+          # image: langgenius/dify-api:0.6.15
           ports:
             - name: http
               containerPort: 5001
               protocol: TCP
           env:
             - name: MODE
-              value: api
+              value: worker
             - name: LOG_LEVEL
               value: INFO
             - name: DEBUG
@@ -33,7 +34,7 @@ spec:
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: SECRET_KEY
             - name: CONSOLE_WEB_URL
               value: "http://dify-web.dify.svc.cluster.local:3000"
@@ -68,27 +69,27 @@ spec:
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: DB_USERNAME
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: DB_PASSWORD
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: DB_HOST
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: DB_PORT
             - name: DB_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: DB_DATABASE
             - name: SQLALCHEMY_POOL_SIZE
               value: "30"
@@ -99,22 +100,22 @@ spec:
             - name: REDIS_HOST
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: REDIS_HOST
             - name: REDIS_PORT
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: REDIS_PORT
             - name: REDIS_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: REDIS_USERNAME
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: REDIS_PASSWORD
             - name: REDIS_USE_SSL
               value: "false"
@@ -140,7 +141,7 @@ spec:
             - name: WEAVIATE_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: dify-api
+                  name: dify-worker
                   key: WEAVIATE_API_KEY
             - name: UPLOAD_FILE_SIZE_LIMIT
               value: "15"
