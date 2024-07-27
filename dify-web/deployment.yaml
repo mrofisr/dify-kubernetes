@@ -16,7 +16,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: dify-web
-          image: ghcr.io/mrofisr/dify/web:{VERSION}
+          image: ghcr.io/mrofisr/dify/web:{{VERSION}}
           # image: langgenius/dify-web:0.6.15
           ports:
             - name: http
