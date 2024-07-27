@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dify-weaviate
+  namespace: dify
+spec:
+  selector:
+    matchLabels:
+      app: dify-weaviate
+  serviceName: "dify-weaviate"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dify-weaviate
+    spec:
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: weaviate-data
+          hostPath:
+            path: /root/dify/db/weaviate/data
+            type: DirectoryOrCreate
+      containers:
+        - name: dify-weaviate
+          image: semitechnologies/weaviate:1.19.0
+          ports:
+            - name: weaviate
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: QUERY_DEFAULTS_LIMIT
+              value: "25"
+            - name: AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED
+              value: "false"
+            - name: PERSISTENCE_DATA_PATH
+              value: "/var/lib/weaviate"
+            - name: "DEFAULT_VECTORIZER_MODULE"
+              value: "none"
+            - name: "AUTHENTICATION_APIKEY_ENABLED"
+              value: "true"
+            - name: "AUTHENTICATION_APIKEY_ALLOWED_KEYS"
+              valueFrom:
+                secretKeyRef:
+                  name: dify-weaviate
+                  key: AUTHENTICATION_APIKEY_ALLOWED_KEYS
+            - name: "AUTHENTICATION_APIKEY_USERS"
+              valueFrom:
+                secretKeyRef:
+                  name: dify-weaviate
+                  key: AUTHENTICATION_APIKEY_USERS
+            - name: "AUTHORIZATION_ADMINLIST_ENABLED"
+              value: "true"
+            - name: "AUTHORIZATION_ADMINLIST_USERS"
+              valueFrom:
+                secretKeyRef:
+                  name: dify-weaviate
+                  key: AUTHENTICATION_APIKEY_USERS
+          volumeMounts:
+            - name: weaviate-data
+              mountPath: /var/lib/weaviate

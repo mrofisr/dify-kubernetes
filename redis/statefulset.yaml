@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: dify
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  serviceName: redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: redis
+          image: redis:6-alpine
+          ports:
+            - containerPort: 6379
+              name: redis
+              protocol: TCP
+          command:
+            [
+              "redis-server",
+              "--save",
+              "20",
+              "1",
+              "--loglevel",
+              "warning",
+              "--requirepass",
+              "$(REDIS_PASSWORD)",
+            ]
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        - name: redis-data
+          hostPath:
+            path: /root/dify/db/redis/data
+            type: DirectoryOrCreate

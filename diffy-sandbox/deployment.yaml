@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dify-sandbox
+  namespace: dify
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dify-sandbox
+  template:
+    metadata:
+      labels:
+        app: dify-sandbox
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: dify-sandbox
+          image: langgenius/dify-sandbox:0.2.1
+          ports:
+            - name: http
+              containerPort: 8194
+              protocol: TCP
+          env:
+            - name: API_KEY
+              value: "dify-sandbox"
+            - name: GIN_MODE
+              value: "release"
+            - name: WORKER_TIMEOUT
+              value: "15"
+            - name: ENABLE_NETWORK
+              value: "true"
+            - name: HTTP_PROXY
+              value: "http://ssrf-proxy.dify.svc.cluster.local:3128"
+            - name: HTTPS_PROXY
+              value: "http://ssrf-proxy.dify.svc.cluster.local:3128"
+            - name: SANDBOX_PORT
+              value: "8194"

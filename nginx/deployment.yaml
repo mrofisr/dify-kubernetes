@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dify-nginx
+  namespace: dify
+  labels:
+    app: dify-nginx
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: dify-nginx
+  template:
+    metadata:
+      labels:
+        app: dify-nginx
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      automountServiceAccountToken: false
+      containers:
+        - name: dify-nginx
+          image: nginx:latest
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: dify-nginx
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: dify-nginx-config
+              mountPath: /etc/nginx/conf.d
+          imagePullPolicy: IfNotPresent
+      volumes:
+        - name: dify-nginx
+          configMap:
+            name: dify-nginx
+        # Persistent volume could be better
+        - name: dify-nginx-config
+          emptyDir: {}

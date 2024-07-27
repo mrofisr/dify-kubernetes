@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dify-web
+  namespace: dify
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dify-web
+  template:
+    metadata:
+      labels:
+        app: dify-web
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: dify-web
+          image: langgenius/dify-web:0.6.15
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: CONSOLE_API_URL
+              value: "http://dify-api.dify.svc.cluster.local"
+            - name: APP_API_URL
+              value: "http://dify-api.dify.svc.cluster.local"

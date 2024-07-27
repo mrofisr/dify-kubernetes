@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dify-weaviate
+  namespace: dify
+type: Opaque
+data:
+  AUTHENTICATION_APIKEY_USERS: aGVsbG9AZGlmeS5haQ==
+  AUTHENTICATION_APIKEY_ALLOWED_KEYS: V1ZGNVlUaGFIbGtZd2hHVVNtQ1Jnc1gzdEQ1bmdkTjhwa2lo

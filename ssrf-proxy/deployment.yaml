@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssrf-proxy
+  namespace: dify
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ssrf-proxy
+  template:
+    metadata:
+      labels:
+        app: ssrf-proxy
+    spec:
+      containers:
+        - name: ssrf-proxy
+          image: ubuntu/squid:latest
+          ports:
+            - name: ssrf-proxy
+              containerPort: 3128
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 3128
+            initialDelaySeconds: 40
+            timeoutSeconds: 4
+          volumeMounts:
+            - name: squid-config
+              mountPath: /etc/squid/squid.conf
+              subPath: squid.conf.template
+      volumes:
+        - name: squid-config
+          configMap:
+            name: ssrf-proxy-config
+            items:
+              - key: squid.conf.template
+                path: squid.conf.template
