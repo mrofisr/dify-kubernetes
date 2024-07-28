@@ -159,6 +159,10 @@ kubectl apply -f dify-web
 ```bash
 kubectl apply -f dify-sandbox
 ```
+### Install NGINX
+```bash
+kubectl apply -f nginx
+```
 ### Install SSRF Proxy
 ```bash
 kubectl apply -f ssrf-proxy
