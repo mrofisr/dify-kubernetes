@@ -10,4 +10,4 @@ spec:
     - protocol: TCP
       port: 3128
       targetPort: 3128
-  type: ClusterIP
+  type: LoadBalancer

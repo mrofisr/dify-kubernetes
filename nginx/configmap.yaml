@@ -32,11 +32,11 @@ data:
         client_max_body_size 15M;
 
         server {
-          listen 80;
+          listen 8008;
           server_name _;
 
           location /console/api {
-            proxy_pass http://dify-api.svc.cluster.local:5001;
+            proxy_pass http://dify-api:5001;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_http_version 1.1;
@@ -47,7 +47,7 @@ data:
           }
 
           location /api {
-            proxy_pass http://dify-api.svc.cluster.local:5001;
+            proxy_pass http://dify-api:5001;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_http_version 1.1;
@@ -58,7 +58,7 @@ data:
           }
 
           location /v1 {
-            proxy_pass http://dify-api.svc.cluster.local:5001;
+            proxy_pass http://dify-api:5001;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_http_version 1.1;
@@ -69,7 +69,7 @@ data:
           }
 
           location /files {
-            proxy_pass http://dify-api.svc.cluster.local:5001;
+            proxy_pass http://dify-api:5001;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_http_version 1.1;
@@ -80,7 +80,7 @@ data:
           }
 
           location / {
-            proxy_pass http://dify-web.svc.cluster.local:3000;
+            proxy_pass http://dify-web:3000;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_http_version 1.1;

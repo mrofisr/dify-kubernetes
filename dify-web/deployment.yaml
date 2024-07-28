@@ -16,7 +16,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: dify-web
-          image: ghcr.io/mrofisr/dify/web:{{VERSION}}
+          image: ghcr.io/mrofisr/dify/web:latest
           # image: langgenius/dify-web:0.6.15
           ports:
             - name: http
@@ -24,6 +24,8 @@ spec:
               protocol: TCP
           env:
             - name: CONSOLE_API_URL
-              value: "http://dify-api.dify.svc.cluster.local"
+              value: "http://localhost:8008"
+              # value: "http://dify-api.dify.svc.cluster.local:5001"
             - name: APP_API_URL
-              value: "http://dify-api.dify.svc.cluster.local"
+              value: "http://localhost:8008"
+              # value: "http://dify-api.dify.svc.cluster.local:5001"

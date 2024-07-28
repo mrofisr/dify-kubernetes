@@ -6,6 +6,7 @@ metadata:
 spec:
   selector:
     app: dify-sandbox
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 8194

@@ -22,15 +22,10 @@ spec:
       containers:
         - name: dify-nginx
           image: nginx:latest
-          resources:
-            requests:
-              cpu: 50m
-              memory: 128Mi
-            limits:
-              cpu: 500m
-              memory: 1Gi
           ports:
-            - containerPort: 80
+            - name: http
+              containerPort: 8008
+              protocol: TCP
           volumeMounts:
             - name: dify-nginx
               mountPath: /etc/nginx/nginx.conf

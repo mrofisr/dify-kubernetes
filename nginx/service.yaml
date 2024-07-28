@@ -1,12 +1,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: nginx
+  name: dify-nginx
+  namespace: dify
 spec:
   selector:
-    app: nginx
-  type: ClusterIP
+    app: dify-nginx
+  type: LoadBalancer
   ports:
     - name: nginx
       port: 8008
-      targetPort: 80
+      targetPort: 8008
